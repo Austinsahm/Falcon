@@ -1,0 +1,487 @@
+<div class="modal-box w-11/12 max-w-5xl">
+  <form method="dialog">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+      ✕
+    </button>
+  </form>
+  <div class="font-bold text-lg mb-2">Control Panel</div>
+  <div class="grid grid-cols-4 gap-4">
+    <div class="flex content-center">Classified:</div>
+
+    <div>
+      <div class="dropdown dropdown-bottom dropdown-end">
+        <label tabindex="0" class="btn m-1">Set Command</label>
+        <ul
+          tabindex="0"
+          class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          <li (click)="openUploadTime()"><a>Set Upload Time</a></li>
+          <li (click)="authorityNumbers()"><a>Authority number</a></li>
+          <li (click)="alarmSettings()"><a>Alarm settings</a></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="dropdown dropdown-bottom dropdown-end">
+        <label tabindex="0" class="btn m-1">Control Command</label>
+        <ul
+          tabindex="0"
+          class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          <li (click)="cutOff()"><a>Cut off fuel and Power</a></li>
+          <li (click)="speedLimit()"><a>Set Speed Limit</a></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="dropdown dropdown-bottom dropdown-end">
+        <label tabindex="0" class="btn m-1">Query Command</label>
+        <ul
+          tabindex="0"
+          class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          <li><a>Item 1</a></li>
+          <li><a>Item 2</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="mt-2 mb-5"><mat-divider></mat-divider></div>
+
+  <div>
+    <div #SUT *ngIf="UploadTime">
+      <form [formGroup]="uploadTimeForm">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Command Name:
+              </label>
+              <span style="font-family: Poppins-Light !important"
+                >Setting Upload Time (Real-Time Mode)</span
+              >
+            </div>
+          </div>
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Device Name:
+              </label>
+              <span style="font-family: Poppins-Light !important">{{
+                dev?.deviceName
+              }}</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-1">
+            <label class="uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >Send method:
+            </label>
+            <mat-radio-group
+              class="example-radio-group"
+              [formControl]="sendMethodControl"
+            >
+              <mat-radio-button class="example-radio-button" value="Immediately"
+                >Immediately send</mat-radio-button
+              >
+              <mat-radio-button class="example-radio-button" value="Delay"
+                >Delay Send</mat-radio-button
+              >
+            </mat-radio-group>
+          </div>
+          <div class="">
+            <mat-form-field class="" appearance="outline" style="width: 100%">
+              <mat-label>Set Upload Time</mat-label>
+              <input
+                matInput
+                placeholder="Set Upload Time"
+                formControlName="interval"
+                type="number"
+                min="1"
+              />
+              <mat-icon matSuffix>schedule</mat-icon>
+              <mat-hint>Second</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button
+            (click)="setUploadTime()"
+            class="px-4 py-3 h-10 bg-blue-600 items-center rounded-md text-white outline-none focus:ring-4 shadow transform active:scale-x-75 transition-transform mx-5 flex"
+          >
+            <span class="">Set</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div #AN *ngIf="authorityNumber">
+      <form [formGroup]="setAuthorityNumbers">
+        <div class="grid grid-cols-4 gap-4">
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Command Name:
+              </label>
+              <span style="font-family: Poppins-Light !important"
+                >Authority number</span
+              >
+            </div>
+          </div>
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Device Name:
+              </label>
+              <span style="font-family: Poppins-Light !important">{{
+                dev?.deviceName
+              }}</span>
+            </div>
+          </div>
+          <!-- <div class="grid grid-cols-1">
+            <label class="uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >Send method:
+            </label>
+            <mat-radio-group class="example-radio-group">
+              <mat-radio-button class="example-radio-button" value="Immediately"
+                >Immediately send</mat-radio-button
+              >
+              <mat-radio-button class="example-radio-button" value="Delay"
+                >Delay Send</mat-radio-button
+              >
+            </mat-radio-group>
+          </div> -->
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                IMEI
+              </label>
+              <span style="font-family: Poppins-Light !important">{{
+                dev?.manufDeviceId
+              }}</span>
+            </div>
+          </div>
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Device ID
+              </label>
+              <span style="font-family: Poppins-Light !important">{{
+                dev?.deviceId
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="w-full">
+          <label
+            class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+          >
+            Phone Number
+          </label>
+          <div class="grid grid-cols-3 gap-4">
+            <div class="">
+              <mat-form-field class="" appearance="outline" style="width: 100%">
+                <mat-label>Num 1</mat-label>
+                <input
+                  matInput
+                  placeholder="Num 1"
+                  formControlName="number1"
+                  type="tel"
+                />
+                <mat-hint>Second</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="">
+              <mat-form-field class="" appearance="outline" style="width: 100%">
+                <mat-label>Num 2</mat-label>
+                <input
+                  matInput
+                  placeholder="number2"
+                  formControlName="number2"
+                  type="tel"
+                />
+                <mat-hint>Second</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="">
+              <mat-form-field class="" appearance="outline" style="width: 100%">
+                <mat-label>Num 3</mat-label>
+                <input
+                  matInput
+                  placeholder="number3"
+                  formControlName="number3"
+                  type="tel"
+                />
+                <mat-hint>Second</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="">
+              <mat-form-field class="" appearance="outline" style="width: 100%">
+                <mat-label>Num 4</mat-label>
+                <input
+                  matInput
+                  placeholder="number4"
+                  formControlName="number4"
+                  type="tel"
+                />
+                <mat-hint>Second</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="">
+              <mat-form-field class="" appearance="outline" style="width: 100%">
+                <mat-label>Num 5</mat-label>
+                <input
+                  matInput
+                  placeholder="number5"
+                  formControlName="number5"
+                  type="tel"
+                />
+                <mat-hint>Second</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button
+            (click)="setAuthNumber()"
+            class="px-4 py-3 h-10 bg-blue-600 items-center rounded-md text-white outline-none focus:ring-4 shadow transform active:scale-x-75 transition-transform mx-5 flex"
+          >
+            <span class="">Set</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div #AS *ngIf="alarmSetting">
+      <form action="">
+        <div class="grid grid-cols-3 gap-4">
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Command Name:
+              </label>
+              <span style="font-family: Poppins-Light !important"
+                >Alarm Setting</span
+              >
+            </div>
+          </div>
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Device Name:
+              </label>
+              <span style="font-family: Poppins-Light !important">{{
+                dev?.deviceName
+              }}</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-1">
+            <label class="uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >Send method:
+            </label>
+            <mat-radio-group
+              class="example-radio-group"
+              [formControl]="sendMethodControl"
+            >
+              <mat-radio-button class="example-radio-button" value="Immediately"
+                >Immediately send</mat-radio-button
+              >
+              <mat-radio-button class="example-radio-button" value="Delay"
+                >Delay Send</mat-radio-button
+              >
+            </mat-radio-group>
+          </div>
+          <div class="">
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">undefined</span>
+              </label>
+              <select class="select select-bordered">
+                <option disabled selected>Pick one</option>
+                <option>Power Down Alarm</option>
+                <option>Power Down Alarm</option>
+              </select>
+            </div>
+          </div>
+          <div class="">
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Alarm Status</span>
+              </label>
+              <select class="select select-bordered">
+                <option disabled selected>Pick one</option>
+                <option>On</option>
+                <option>Off</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            class="px-4 py-3 h-10 bg-blue-600 items-center rounded-md text-white outline-none focus:ring-4 shadow transform active:scale-x-75 transition-transform mx-5 flex"
+          >
+            <span class="">Set</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div #CO *ngIf="cutOffTab">
+      <form [formGroup]="uploadTimeForm">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Command Name:
+              </label>
+              <span style="font-family: Poppins-Light !important"
+                >Cut Off Fuel and Power</span
+              >
+            </div>
+          </div>
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Device Name:
+              </label>
+              <span style="font-family: Poppins-Light !important">{{
+                dev?.deviceName
+              }}</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-1">
+            <label class="uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >Send method:
+            </label>
+            <mat-radio-group
+              class="example-radio-group"
+              [formControl]="sendMethodControl"
+            >
+              <mat-radio-button class="example-radio-button" value="Immediately"
+                >Immediately send</mat-radio-button
+              >
+              <mat-radio-button class="example-radio-button" value="Delay"
+                >Delay Send</mat-radio-button
+              >
+            </mat-radio-group>
+          </div>
+          <div class="">
+            <mat-form-field class="" appearance="outline" style="width: 100%">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                [type]="hide ? 'password' : 'text'"
+                placeholder="Enter your password"
+                formControlName="password"
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+              >
+                <mat-icon
+                  class="text-blue-500 dark:text-blue-900 hover:text-blue-500"
+                  >{{ hide ? "visibility_off" : "visibility" }}</mat-icon
+                >
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button
+            (click)="setCutOff()"
+            class="px-4 py-3 h-10 bg-blue-600 items-center rounded-md text-white outline-none focus:ring-4 shadow transform active:scale-x-75 transition-transform mx-5 flex"
+          >
+            <span class="">Set</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div #SL *ngIf="speedLimitTab">
+      <form [formGroup]="setSpeedLimitForm">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Command Name:
+              </label>
+              <span style="font-family: Poppins-Light !important"
+                >Speed Limit</span
+              >
+            </div>
+          </div>
+          <div class="w-full">
+            <div class="relative w-full mb-3">
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >
+                Device Name:
+              </label>
+              <span style="font-family: Poppins-Light !important">{{
+                dev?.deviceName
+              }}</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-1">
+            <label class="uppercase text-blueGray-600 text-xs font-bold mb-2"
+              >Send method:
+            </label>
+            <mat-radio-group
+              class="example-radio-group"
+              [formControl]="sendMethodControl"
+            >
+              <mat-radio-button class="example-radio-button" value="Immediately"
+                >Immediately send</mat-radio-button
+              >
+              <mat-radio-button class="example-radio-button" value="Delay"
+                >Delay Send</mat-radio-button
+              >
+            </mat-radio-group>
+          </div>
+          <div class="">
+            <mat-form-field class="" appearance="outline" style="width: 100%">
+              <mat-label>Set Speed Limit</mat-label>
+              <input
+                matInput
+                placeholder="Set Speed Limit"
+                formControlName="speedLimit"
+                type="number"
+                min="1"
+              />
+              <mat-hint>km/hr</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button
+            (click)="setSpeedLimit()"
+            class="px-4 py-3 h-10 bg-blue-600 items-center rounded-md text-white outline-none focus:ring-4 shadow transform active:scale-x-75 transition-transform mx-5 flex"
+          >
+            <span class="">Set</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

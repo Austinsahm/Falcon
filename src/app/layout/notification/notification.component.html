@@ -1,0 +1,102 @@
+<div
+  class="fixed right-0 mt-12 bg-white rounded-md shadow-lg overflow-hidden z-20"
+  style="width: 90%"
+>
+  <div class="pt-2">
+    <!-- <div *ngIf="notification$ | progress | async as notification"> -->
+    <!-- <div *ngIf="!notifications.length">
+      <p>No Alarms</p>
+    </div>
+    <div *ngIf="notifications.length">
+      <p *ngFor="let notification of notifications">
+        {{ notification | json }}
+      </p>
+    </div> -->
+
+    <div class="w-full mat-elevation-z2">
+      <mat-table [dataSource]="dataSource" class="" matSort>
+        <!-- Device Name -->
+        <ng-container matColumnDef="deviceName">
+          <mat-header-cell *matHeaderCellDef>Device Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-xs">{{
+            element.deviceName
+          }}</mat-cell>
+        </ng-container>
+
+        <!-- Alarm Type -->
+        <ng-container matColumnDef="alarmType">
+          <mat-header-cell *matHeaderCellDef>Alarm Type</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-xs">{{
+            element.alarmType
+          }}</mat-cell>
+        </ng-container>
+
+        <!-- Alarm Time -->
+        <ng-container matColumnDef="alarmTime">
+          <mat-header-cell *matHeaderCellDef>Alarm Time</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-xs">{{
+            element.alarmTime | date : "medium"
+          }}</mat-cell>
+        </ng-container>
+
+        <!-- Signal Time -->
+        <ng-container matColumnDef="signalTime">
+          <mat-header-cell *matHeaderCellDef>Signal Time</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-xs">{{
+            element.signalTime | date : "medium"
+          }}</mat-cell>
+        </ng-container>
+
+        <!-- Speed (Km/h) -->
+        <ng-container matColumnDef="speed">
+          <mat-header-cell *matHeaderCellDef>Speed (km/h)</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-xs"
+            >{{ element.speed }}km/h</mat-cell
+          >
+        </ng-container>
+
+        <!-- Course -->
+        <ng-container matColumnDef="course">
+          <mat-header-cell *matHeaderCellDef>Course</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-xs">{{
+            element.course
+          }}</mat-cell>
+        </ng-container>
+
+        <!-- Description -->
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-xs">{{
+            element.description
+          }}</mat-cell>
+        </ng-container>
+
+        <!-- Operating -->
+        <ng-container matColumnDef="operating">
+          <mat-header-cell *matHeaderCellDef>Operating</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-xs">
+            <ng-container
+              class="text-green-500"
+              *ngIf="element.operating; else unreadTemplate"
+            >
+              Read
+            </ng-container>
+            <ng-template class="text-red-500" #unreadTemplate
+              >Mark as Read</ng-template
+            >
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </div>
+
+    <!-- </div> -->
+    <a
+      [routerLink]="['/alarm/alarms']"
+      class="block border-gray-300 border-y-1 text-center py-2"
+      >See all Alarms</a
+    >
+  </div>
+</div>

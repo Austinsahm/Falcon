@@ -1,0 +1,9 @@
+.footer{
+    width: calc(100% - 64px);
+}
+
+@media only screen and (max-width: 600px) {
+    .footer {
+      margin-left: 4em !important;
+    }
+  }

@@ -1,0 +1,16 @@
+<ng-container>
+  <app-header></app-header>
+
+  <ng-container class="sideNav">
+    <ng-content select="[navigation]"> </ng-content>
+  </ng-container>
+
+  <div class="layout bg-background dark:bg-slate-700  min-h-sreen">
+    <div class="body">
+      <ng-content></ng-content>
+    </div>
+    <div class="bottom-0 w-full mt-3">
+      <app-footer></app-footer>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,364 @@
+<!-- The Loader -->
+<div *ngIf="loading" class="flex justify-center content-center h-34">
+  <progress class="progress w-56 text-primary"></progress>
+</div>
+
+<section
+  class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+>
+  <div class="w-full mx-auto" *ngIf="devices$ | async as device">
+    <div
+      class="relative flex flex-col min-w-0 break-words w-full rounded-lg bg-blueGray-100 border-0"
+    >
+      <div class="rounded-t bg-white mb-0 px-6 py-4 bg-gray-50">
+        <div class="text-center flex justify-between items-center">
+          <div
+            *ngIf="!editMode"
+            class="text-blueGray-700 text-primary text-2xl flex"
+          >
+            Device Details
+          </div>
+          <div
+            *ngIf="editMode"
+            class="text-blueGray-700 text-primary text-2xl flex"
+          >
+            Edit Details
+          </div>
+          <button
+            *ngIf="!editMode"
+            type="button"
+            (click)="close()"
+            class="border-blue-600 items-center rounded-md text-blue-600 outline-none focus:ring-4 transform active:scale-x-75 transition-transform mx-5 flex"
+          >
+            <mat-icon class="">cancel</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="flex-auto px-4 lg:px-10 py-10 bg-white border-t border-gray-200 dark:border-gray-600"
+        *ngIf="!editMode"
+      >
+        <div>
+          <div class="flex flex-wrap bg-white">
+            <div class="w-full lg:w-6/12 pr-4 mb-5">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                >
+                  Device Name
+                </label>
+                <span style="font-family: Poppins-Light !important">{{
+                  device[0].deviceName
+                }}</span>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 pr-4 mb-5">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlfor="grid-password"
+                >
+                  IMEI
+                </label>
+                <span style="font-family: Poppins-Light !important">{{
+                  device[0].manufDeviceId
+                }}</span>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 pr-4 mb-5">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlfor="grid-password"
+                >
+                  SIM Card Number
+                </label>
+                <span style="font-family: Poppins-Light !important">{{
+                  device[0].devicePac
+                }}</span>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 pr-4 mb-5">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlfor="grid-password"
+                >
+                  Plate Number
+                </label>
+                <span style="font-family: Poppins-Light !important">{{
+                  device[0].certificate
+                }}</span>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 pr-4 mb-5">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlfor="grid-password"
+                >
+                  Device Category
+                </label>
+                <span style="font-family: Poppins-Light !important">{{
+                  device[0].clientDeviceCategId
+                }}</span>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 pr-4 mb-5">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlfor="grid-password"
+                >
+                  Device Description
+                </label>
+                <span style="font-family: Poppins-Light !important">{{
+                  device[0].deviceDesc
+                }}</span>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 pr-4 mb-5">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlfor="grid-password"
+                >
+                  Min Speed
+                </label>
+                <span style="font-family: Poppins-Light !important">{{
+                  device[0].minSpeed
+                }}</span>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 pr-4 mb-5">
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                  htmlfor="grid-password"
+                >
+                  Max Speed
+                </label>
+                <span style="font-family: Poppins-Light !important">{{
+                  device[0].maxSpeed
+                }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!editMode" class="flex justify-end items-center">
+            <button
+              type="button"
+              (click)="edit()"
+              class="px-4 py-3 h-10 bg-blue-600 items-center rounded-md text-white outline-none focus:ring-4 shadow-lg transform active:scale-x-75 transition-transform mx-5 flex"
+            >
+              <mat-icon> edit </mat-icon>
+              <span class="ml-2">Edit</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Mode of device details -->
+      <div class="flex-auto px-4 lg:px-10 py-10 bg-white" *ngIf="editMode">
+        <form [formGroup]="addDeviceForm" (ngSubmit)="onSubmit()">
+          <!-- <div class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase flex ">
+            Device Information
+          </div> -->
+          <div class="flex flex-wrap">
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <mat-form-field
+                  class=""
+                  appearance="outline"
+                  style="width: 100%"
+                >
+                  <mat-label>Device Name</mat-label>
+                  <input
+                    matInput
+                    placeholder="Device Name"
+                    formControlName="deviceName"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <mat-form-field
+                  class=""
+                  appearance="outline"
+                  style="width: 100%"
+                >
+                  <mat-label>IMEI</mat-label>
+                  <input
+                    matInput
+                    placeholder="IMEI"
+                    formControlName="manufDeviceId"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <mat-form-field
+                  class=""
+                  appearance="outline"
+                  style="width: 100%"
+                >
+                  <mat-label>SIM Card Number</mat-label>
+                  <input
+                    matInput
+                    placeholder="SIM Card No."
+                    formControlName="devicePac"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <mat-form-field
+                  class=""
+                  appearance="outline"
+                  style="width: 100%"
+                >
+                  <mat-label>Plate Number</mat-label>
+                  <input
+                    matInput
+                    placeholder="Plate Number"
+                    formControlName="certificate"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="w-full lg:w-12/12 px-4">
+              <div class="relative w-full mb-3">
+                <!-- <mat-form-field
+                  class=""
+                  appearance="outline"
+                  style="width: 100%"
+                >
+                  <mat-label>Device Category</mat-label>
+                  <input
+                    matInput
+                    placeholder="Device Category"
+                    formControlName="clientDeviceCategId"
+                  />
+                </mat-form-field> -->
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Device Category</mat-label>
+                  <mat-select
+                    placeholder="Device Category"
+                    formControlName="clientDeviceCategId"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let category of category"
+                      [value]="category.deviceCategId"
+                    >
+                      {{ category.deviceCategName }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint *ngIf="category.length === 0" style="color: red"
+                    >Category Unavaliable</mat-hint
+                  >
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="flex w-full flex-wrap">
+              <div class="w-full lg:w-12/12 px-4">
+                <div class="relative w-full mb-3">
+                  <mat-form-field
+                    class=""
+                    appearance="outline"
+                    style="width: 100%"
+                    [hideRequiredMarker]="false"
+                  >
+                    <mat-label>Device Description</mat-label>
+
+                    <textarea
+                      matInput
+                      placeholder="Device Description"
+                      formControlName="deviceDesc"
+                    ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <mat-form-field
+                  class=""
+                  appearance="outline"
+                  style="width: 100%"
+                >
+                  <mat-label>Max. Low Speed</mat-label>
+                  <input
+                    matInput
+                    placeholder="Maximum Low Speed."
+                    formControlName="minSpeed"
+                    type="number"
+                    min="0"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="w-full lg:w-6/12 px-4">
+              <div class="relative w-full mb-3">
+                <mat-form-field
+                  class=""
+                  appearance="outline"
+                  style="width: 100%"
+                >
+                  <mat-label>Over Speed</mat-label>
+                  <input
+                    type="number"
+                    matInput
+                    placeholder="Over Speed Benchmark"
+                    formControlName="maxSpeed"
+                    min="0"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between w-full">
+            <button
+              type="button"
+              (click)="back()"
+              class="px-4 py-3 h-10 border-blue-600 items-center rounded-md text-blue-600 outline-none focus:ring-4 shadow transform active:scale-x-75 transition-transform mx-5 flex"
+            >
+              <svg viewBox="0 0 24 24" class="h-6 w-6 blueColor" fill="#3056d3">
+                <path
+                  d="M5.82843 6.99955L8.36396 9.53509L6.94975 10.9493L2 5.99955L6.94975 1.0498L8.36396 2.46402L5.82843 4.99955H13C17.4183 4.99955 21 8.58127 21 12.9996C21 17.4178 17.4183 20.9996 13 20.9996H4V18.9996H13C16.3137 18.9996 19 16.3133 19 12.9996C19 9.68584 16.3137 6.99955 13 6.99955H5.82843Z"
+                ></path>
+              </svg>
+              <!-- <mat-icon>cancel</mat-icon> -->
+              <span class="ml-2">Back</span>
+            </button>
+
+            <button
+              type="submit"
+              class="px-4 py-3 h-10 bg-blue-600 items-center rounded-md text-white outline-none focus:ring-4 shadow transform active:scale-x-75 transition-transform mx-5 flex"
+            >
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                />
+              </svg>
+              <span class="ml-2">Update</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

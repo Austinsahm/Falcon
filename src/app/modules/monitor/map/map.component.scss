@@ -1,0 +1,71 @@
+.map {
+  height: 92vh; // 92vh
+  background-color: transparent;
+  opacity: 0;
+  transition: opacity 150ms ease-in;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.map.visible {
+  opacity: 1;
+}
+
+.geoFence {
+  position: absolute;
+  top: 120px;
+  right: 26%;
+  z-index: 5;
+  padding: 5px;
+  text-align: center;
+  // font-family: "Roboto", "sans-serif";
+  line-height: 30px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.pano {
+  position: absolute;
+  top: 190px;
+  right: 26%;
+  z-index: 5;
+  padding: 5px;
+  text-align: center;
+  // font-family: "Roboto", "sans-serif";
+  font-weight: 500;
+  line-height: 30px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+@media only screen and (max-width: 600px) {
+  .pano {
+    right: 5% !important;
+  }
+  .geoFence {
+    right: 5%;
+  }
+}
+
+button gm-ui-hover-effect {
+  top: 0px !important;
+  right: 0px !important;
+}
+
+.gm-style-iw {
+  background-color: red !important;
+}
+
+.listItems {
+  height: 265px;
+}
+
+.active-fence {
+  background-color: rgb(243 244 246);
+}

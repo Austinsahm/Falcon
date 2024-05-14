@@ -1,0 +1,23 @@
+<mat-form-field 
+  [formControl]="control"
+  (blur)="onBlur.emit()"
+  ngDefaultControl
+>
+  <mat-label>{{ placeholder || "Select..." }} </mat-label>
+  <mat-select (selectionChange)="onSelectionChange($event)" [(value)]="defaultSelection">
+    <mat-option value="" disabled selected *ngIf="!options?.length" >
+      {{
+        loading
+          ? loadingMessage || "Loading..."
+          : emptyMessage || "Nothing to select..."
+      }}
+    </mat-option>
+    <mat-option
+      *ngFor="let option of options; trackBy: trackByFn"
+      [value]="option.key"
+      [disabled]="option.disabled"
+    >
+      {{ option.label }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

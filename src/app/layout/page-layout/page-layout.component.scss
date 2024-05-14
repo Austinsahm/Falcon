@@ -1,0 +1,15 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  // height: 91.0vh;
+  min-height: 100vh;
+}
+
+.body {
+  // margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

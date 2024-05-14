@@ -1,0 +1,421 @@
+<app-page-layout *ngIf="user$ | async as user">
+  <mat-sidenav-container>
+    <mat-sidenav
+      #sidenav
+      navigation
+      mode="side"
+      class="sidenav fixed"
+      [ngStyle]="{ 'width.em': sidenavWidth }"
+      opened="true"
+      (mouseenter)="increase()"
+      (mouseleave)="decrease()"
+      ><picture *ngIf="sidenavWidth > 4">
+        <source
+          srcset="assets/falcon_open_dark.png"
+          media="(prefers-color-scheme: dark)"
+          class="p-3"
+          height="200px"
+          width="200px"
+        />
+        <img
+          src="assets/Falcon sidebar.png"
+          class="p-3"
+          height="200px"
+          width="200px"
+          alt=""
+        />
+      </picture>
+
+      <picture *ngIf="sidenavWidth === 4">
+        <source
+          srcset="assets/falcon_closed_dark.png"
+          media="(prefers-color-scheme: dark)"
+          class="mt-3 mx-auto"
+          style="max-width: 90%"
+        />
+        <img
+          src="assets/Falcon sidebar close.png"
+          class="mt-3 mx-auto"
+          style="max-width: 90%"
+          alt=""
+        />
+      </picture>
+
+      <mat-list class="active" navigation>
+        <a
+          mat-list-item
+          [routerLinkActive]="['active-link']"
+          [routerLink]="['./monitor']"
+          class="nav-link text-dark hover"
+        >
+          <mat-icon
+            class="text-primary"
+            mat-list-icon
+            style="padding: 0 !important"
+            >dashboard</mat-icon
+          >
+          <p matLine *ngIf="sidenavWidth > 6" class="text-primary sideText">
+            Monitor
+          </p>
+        </a>
+
+        <a
+          mat-list-item
+          [routerLinkActive]="['active-link']"
+          [routerLink]="['./device-management']"
+          class="nav-link text-dark hover"
+        >
+          <mat-icon class="" mat-list-icon style="padding: 0 !important"
+            >share_location</mat-icon
+          >
+          <p matLine *ngIf="sidenavWidth > 6" class="text-primary sideText">
+            Device Mangement
+          </p>
+        </a>
+
+        <a
+          mat-list-item
+          [routerLinkActive]="['active-link']"
+          [class.active-link]="isReportLinkActive()"
+          *ngIf="sidenavWidth < 6; else openReport"
+          class="text-primary nav-link"
+          style="align-self: center"
+        >
+          <mat-icon
+            class="text-primary"
+            style="padding: 0 !important"
+            mat-list-icon
+            >summarize</mat-icon
+          >
+        </a>
+
+        <ng-template #openReport
+          ><mat-expansion-panel
+            style="box-shadow: none"
+            [(expanded)]="close"
+            class="grid content-center"
+          >
+            <mat-expansion-panel-header
+              style="height: 40px"
+              [routerLinkActive]="['active-link']"
+              [class.active-link]="isReportLinkActive()"
+            >
+              <mat-panel-title
+                *ngIf="sidenavWidth > 6"
+                class="text-primary nav-link"
+                style="align-self: center"
+              >
+                <mat-icon
+                  class="text-primary"
+                  style="align-self: center; margin-left: 8px"
+                  >summarize</mat-icon
+                >
+
+                <div
+                  class="sideText report"
+                  style="align-self: center; margin-left: 16px"
+                >
+                  Report
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a
+              mat-list-item
+              [routerLink]="['./report/travel-report']"
+              [routerLinkActive]="['active-link']"
+              class="nav-link text-dark"
+              style="height: 40px"
+            >
+              <mat-icon class="me-2 text-primary">route</mat-icon>
+              <div
+                class="ml-3 text-primary sideText"
+                style="align-self: center"
+              >
+                Travel Report
+              </div>
+            </a>
+            <a
+              mat-list-item
+              [routerLink]="['./report/travel-report-list']"
+              [routerLinkActive]="['active-link']"
+              class="nav-link text-dark"
+              style="height: 40px"
+            >
+              <mat-icon class="me-2 text-primary">view_list</mat-icon>
+              <div
+                class="ml-3 text-primary sideText"
+                style="align-self: center"
+              >
+                Travel Report List
+              </div>
+            </a>
+            <!-- <a
+              mat-list-item
+              [routerLink]="['./report/alarm-report']"
+              style="height: 40px"
+              class="nav-link text-dark"
+            >
+              <mat-icon class="me-2 text-primary" style="align-self: center"
+                >summarize</mat-icon
+              >
+              <div
+                class="ml-3 text-primary sideText"
+                style="align-self: center"
+              >
+                Alarm Report
+              </div>
+            </a> -->
+            <!-- <a
+              mat-list-item
+              [routerLink]="['./']"
+              class="nav-link text-dark hover"
+              style="height: 40px"
+            >
+              <mat-icon class="me-2 text-primary" style="align-self: center"
+                >rectangle</mat-icon
+              >
+              <div
+                class="ml-3 text-primary sideText"
+                style="align-self: center"
+              >
+                Calibration Report
+              </div>
+            </a> -->
+          </mat-expansion-panel></ng-template
+        >
+
+        <a
+          mat-list-item
+          [routerLinkActive]="['active-link']"
+          [class.active-link]="isAlarmsActive()"
+          *ngIf="sidenavWidth < 6; else alarm"
+          class="text-primary nav-link"
+          style="align-self: center"
+        >
+          <mat-icon
+            class="text-primary"
+            style="padding: 0 !important"
+            mat-list-icon
+            >notifications_active</mat-icon
+          >
+        </a>
+
+        <ng-template #alarm
+          ><mat-expansion-panel
+            style="box-shadow: none"
+            [(expanded)]="closeAlarm"
+            class="grid content-center"
+          >
+            <mat-expansion-panel-header
+              style="height: 40px"
+              [routerLinkActive]="['active-link']"
+              [class.active-link]="isAlarmsActive()"
+            >
+              <mat-panel-title
+                *ngIf="sidenavWidth > 6"
+                class="text-primary nav-link"
+                style="align-self: center"
+              >
+                <mat-icon
+                  class="text-primary"
+                  style="align-self: center; margin-left: 8px"
+                  >notifications_active</mat-icon
+                >
+
+                <div
+                  class="sideText report"
+                  style="align-self: center; margin-left: 16px"
+                >
+                  Alarm Report
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a
+              mat-list-item
+              [routerLink]="['./alarm/alarms']"
+              [routerLinkActive]="['active-link']"
+              class="nav-link text-dark"
+              style="height: 40px"
+            >
+              <mat-icon class="me-2 text-primary">route</mat-icon>
+              <div
+                class="ml-3 text-primary sideText"
+                style="align-self: center"
+              >
+                Alarms
+              </div>
+            </a>
+            <a
+              mat-list-item
+              [routerLink]="['./alarm/alarm-statistics']"
+              [routerLinkActive]="['active-link']"
+              class="nav-link text-dark"
+              style="height: 40px"
+            >
+              <mat-icon class="me-2 text-primary" style="align-self: center"
+                >summarize</mat-icon
+              >
+              <div
+                class="ml-3 text-primary sideText"
+                style="align-self: center"
+              >
+                Alarm Statistics
+              </div>
+            </a>
+          </mat-expansion-panel></ng-template
+        >
+
+        <!-- <a
+          mat-list-item
+          routerLinkActive="active"
+          [routerLink]="['./report']"
+          class="nav-link text-dark hover"
+        >
+          <mat-icon
+            class="text-primary"
+            mat-list-icon
+            style="padding: 0 !important"
+          >
+            summarize
+          </mat-icon>
+          <p matLine *ngIf="sidenavWidth > 6" class="text-primary">Report</p>
+        </a> -->
+
+        <a
+          mat-list-item
+          routerLinkActive="active"
+          [routerLink]="['./']"
+          class="nav-link text-dark hover"
+        >
+          <mat-icon
+            class="text-primary"
+            mat-list-icon
+            style="padding: 0 !important"
+            >receipt_long</mat-icon
+          >
+          <p matLine *ngIf="sidenavWidth > 6" class="text-primary sideText">
+            Billing
+          </p>
+        </a>
+
+        <a
+          mat-list-item
+          routerLinkActive="active"
+          [routerLink]="['./']"
+          class="nav-link text-dark hover"
+        >
+          <mat-icon
+            class="text-primary"
+            mat-list-icon
+            style="padding: 0 !important"
+            >person</mat-icon
+          >
+          <p matLine *ngIf="sidenavWidth > 6" class="text-primary sideText">
+            Users
+          </p>
+        </a>
+
+        <!-- <div class="absolute bottom-0 w-full mb-16"> -->
+        <div
+          *ngIf="sidenavWidth > 6"
+          style="margin-bottom: 32px"
+          class="border-t-2 mx-4 divid"
+        ></div>
+        <div class="mb-4 items-center">
+          <a
+            class="text-primary"
+            mat-list-item
+            routerLinkActive="active"
+            [routerLink]="['./']"
+            class="nav-link text-dark hover flex items-center"
+          >
+            <mat-icon
+              class="text-primary"
+              mat-list-icon
+              style="
+                padding: 0 !important;
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+              "
+              >settings</mat-icon
+            >
+            <p
+              matLine
+              *ngIf="sidenavWidth > 6"
+              class="text-primary"
+              style="font-size: 12px"
+            >
+              Settings
+            </p>
+          </a>
+
+          <a
+            mat-list-item
+            class="text-primary"
+            routerLinkActive="active"
+            class="nav-link text-dark hover flex items-center"
+            [routerLink]="['./login']"
+            (click)="logOut()"
+          >
+            <mat-icon
+              class="text-primary"
+              mat-list-icon
+              style="
+                padding: 0 !important;
+                font-size: 18px;
+                width: 18px;
+                height: 18px;
+              "
+              >logout</mat-icon
+            >
+            <p
+              matLine
+              *ngIf="sidenavWidth > 6"
+              class="text-primary"
+              style="font-size: 12px"
+            >
+              Logout
+            </p>
+          </a>
+        </div>
+
+        <div
+          *ngIf="sidenavWidth > 6"
+          class="flex items-center w-full px-4 opacity-75 -mb-6"
+        >
+          <div class="relative">
+            <img
+              [src]="user.logo"
+              alt="avatar"
+              class="border-2 rounded-full w-12 h-12"
+            />
+            <span
+              class="bg-green-500 absolute top-0 right-0 w-3 h-3 rounded-full"
+            ></span>
+          </div>
+
+          <div class="h-12 mr-2 py-2 pl-1 footerSpan">
+            <span class="user text-bold">{{ user.firstName }}</span>
+            <br />
+            <span class="userCompany">{{ user.companyName }}</span>
+          </div>
+        </div>
+        <!-- </div> -->
+      </mat-list>
+    </mat-sidenav>
+    <mat-sidenav-content
+      class="relative content bg-background"
+      style="margin-left: 56px; margin-top: 48px"
+    >
+      <!-- <div class="bg-black h-full"> -->
+      <div class="w-full bg-background dark:bg-slate-700 h-full p-2">
+        <router-outlet></router-outlet>
+        <!-- <div class="bottom-0 w-full mt-3">
+            <app-footer></app-footer>
+          </div> -->
+      </div>
+      <!-- </div> -->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</app-page-layout>

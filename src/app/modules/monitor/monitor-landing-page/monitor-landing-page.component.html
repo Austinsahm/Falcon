@@ -1,0 +1,233 @@
+<app-page-layout>
+    <mat-sidenav-container>
+      <mat-sidenav
+        #sidenav
+        navigation
+        mode="side"
+        class="sidenav fixed"
+        [ngStyle]="{ 'width.em': sidenavWidth }"
+        opened="true"
+        (mouseenter)="increase()"
+        (mouseleave)="decrease()"
+      >
+        <mat-list class="active" navigation>
+          <a
+            mat-list-item
+            routerLinkActive="active"
+            [routerLink]="['./list']"
+            class="nav-link text-dark hover"
+          >
+            <mat-icon class="text-primary" mat-list-icon style="padding: 0 !important"> home</mat-icon>
+            <p matLine *ngIf="sidenavWidth > 6" class="text-primary">Monitor</p>
+          </a>
+  
+          <a
+            mat-list-item
+            routerLinkActive="active"
+            [routerLink]="['./add-device']"
+            class="nav-link text-dark hover"
+          >
+            <mat-icon class="text-primary" mat-list-icon style="padding: 0 !important"
+              >business</mat-icon
+            >
+            <p matLine *ngIf="sidenavWidth > 6" class="text-primary">Device Mangement</p>
+          </a>
+  
+          <a
+            mat-list-item
+            routerLinkActive="active"
+            [routerLink]="['./']"
+            class="nav-link text-dark hover"
+          >
+            <mat-icon class="text-primary" mat-list-icon style="padding: 0 !important"
+              >report</mat-icon
+            >
+            <p matLine *ngIf="sidenavWidth > 6" class="text-primary">Report</p>
+          </a>
+  
+          <a
+            mat-list-item
+            routerLinkActive="active"
+            [routerLink]="['./']"
+            class="nav-link text-dark hover"
+          >
+            <mat-icon class="text-primary" mat-list-icon style="padding: 0 !important"
+              >payment</mat-icon
+            >
+            <p matLine *ngIf="sidenavWidth > 6" class="text-primary">Billing</p>
+          </a>
+  
+          <a
+            mat-list-item
+            routerLinkActive="active"
+            [routerLink]="['./']"
+            class="nav-link text-dark hover"
+          >
+            <mat-icon class="text-primary" mat-list-icon style="padding: 0 !important">tune</mat-icon>
+            <p matLine *ngIf="sidenavWidth > 6" class="text-primary">Users</p>
+          </a>
+  
+          <!-- <mat-accordion hideToggle="{{ sidenavWidth < 6 }}">
+            <mat-expansion-panel
+              style="box-shadow: none; background-color: inherit"
+              [(expanded)]="close"
+            >
+              <mat-expansion-panel-header
+                class="flex justify-between items-stretch"
+                routerLinkActive="active"
+              >
+                <mat-panel-title class="self-center" *ngIf="sidenavWidth > 6">
+                  <mat-icon class="mr-3">business</mat-icon> Device Mangement
+                </mat-panel-title>
+                <mat-panel-title
+                  *ngIf="sidenavWidth < 6"
+                  style="overflow: visible"
+                >
+                  <mat-icon mat-list-icon>business</mat-icon>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="mr-2">business</mat-icon> Company
+              </a>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">summarize</mat-icon> Summary
+              </a>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark hover"
+              >
+                <mat-icon class="me-2">rectangle</mat-icon> Company Parameters
+              </a>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">label</mat-icon> White Label
+              </a>
+            </mat-expansion-panel>
+  
+            <mat-expansion-panel
+              style="box-shadow: none; background-color: inherit"
+              [(expanded)]="closeDev"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title *ngIf="sidenavWidth > 6">
+                  <mat-icon class="me-3">report</mat-icon> Report
+                </mat-panel-title>
+                <mat-panel-title
+                  *ngIf="sidenavWidth < 6"
+                  style="overflow: visible"
+                >
+                  <mat-icon>graphic_eq</mat-icon>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">cable</mat-icon> Device Category </a
+              ><a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">water</mat-icon> Device
+              </a>
+            </mat-expansion-panel>
+  
+            <mat-expansion-panel
+              style="box-shadow: none; background-color: inherit"
+              [(expanded)]="closeReport"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title *ngIf="sidenavWidth > 6">
+                  <mat-icon class="me-3">payment</mat-icon> Billing
+                </mat-panel-title>
+                <mat-panel-title
+                  *ngIf="sidenavWidth < 6"
+                  style="overflow: visible"
+                >
+                  <mat-icon>report</mat-icon>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">business</mat-icon> Company Lists
+              </a>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">summarize</mat-icon> Company Summary
+              </a>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">payment</mat-icon> Company Billing
+              </a>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">important_devices</mat-icon> Device Lists
+              </a>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">monitor_heart</mat-icon> Device Summary
+              </a>
+            </mat-expansion-panel>
+  
+            <mat-expansion-panel
+              style="box-shadow: none; background-color: inherit"
+              [(expanded)]="closeUtil"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title *ngIf="sidenavWidth > 6">
+                  <mat-icon class="me-3">tune</mat-icon> Users
+                </mat-panel-title>
+                <mat-panel-title
+                  *ngIf="sidenavWidth < 6"
+                  style="overflow: visible"
+                >
+                  <mat-icon>tune</mat-icon>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                class="nav-link text-dark"
+              >
+                <mat-icon class="me-2">devices_other</mat-icon> Bulk Device Load
+              </a>
+            </mat-expansion-panel>
+          </mat-accordion> -->
+        </mat-list>
+      </mat-sidenav>
+      <mat-sidenav-content class="relative top-14" style="margin-left: 56px">
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </app-page-layout>
+  

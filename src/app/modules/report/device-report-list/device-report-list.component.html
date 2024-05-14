@@ -1,0 +1,203 @@
+<div class="rounded-t mb-0 px-6 py-4 bg-gray-50">
+  <div class="text-center flex justify-between">
+    <div class="text-blue-700  text-2xl">Travel Report List</div>
+  </div>
+</div>
+<div class="rounded-b bg-white p-2">
+  <form class="rounded justify-center" [formGroup]="dateForm">
+    <div class="grid md:grid-cols-5 gap-4 mb-2">
+      <mat-form-field class="w-full" appearance="outline" style="width: 100%">
+        <mat-label>Start Date</mat-label>
+        <input
+          matInput
+          [ngxMatDatetimePicker]="picker"
+          placeholder="Choose a date"
+          formControlName="startDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="$any(picker)"
+        ></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [showSeconds]="true">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+
+      <mat-form-field class="" appearance="outline" style="width: 100%">
+        <mat-label>End Date</mat-label>
+        <input
+          matInput
+          [ngxMatDatetimePicker]="picker2"
+          placeholder="Choose a date"
+          formControlName="endDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="$any(picker2)"
+        ></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker2 [showSeconds]="true">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Device</mat-label>
+        <mat-select formControlName="deviceId" required>
+          <mat-option
+            *ngFor="let devices of devices"
+            [value]="devices.deviceId"
+          >
+            {{ devices.deviceName }}
+          </mat-option>
+        </mat-select>
+        <mat-hint *ngIf="devices.length === 0" style="color: red"
+          >Devices Unavaliable</mat-hint
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Geofence Type </mat-label>
+        <mat-select multiple>
+          <mat-option *ngFor="let fenceType of fenceType" [value]="fenceType">{{
+            fenceType
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="grid items-center justify-items-end ">
+        <!-- <mat-checkbox
+          (change)="checkAddress()"
+          color="primary"
+          class="example-margin mr-2"
+          >View Addresses</mat-checkbox
+        > -->
+
+        <button
+          [hidden]="!dateForm.invalid"
+          [disabled]="dateForm.invalid"
+          type="button"
+          class="text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          disabled
+        >
+          View List
+        </button>
+
+        <button
+          (click)="fetchPath(devices)"
+          [hidden]="dateForm.invalid"
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        >
+          View List
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Loader -->
+  <div class="justify-self-center w-full">
+    <div *ngIf="loading" class="flex justify-center content-center">
+      <progress class="progress w-56 text-primary"></progress>
+    </div>
+
+    <!-- Path List Table -->
+    <div *ngIf="!loading">
+      <div class="flex w-full justify-end mb-2">
+        <button
+          *ngIf="export"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          mat-button
+          (click)="onExport()"
+        >
+          Export to Excel
+        </button>
+      </div>
+
+      <mat-table
+        #table
+        [dataSource]="dataSource"
+        class="mat-elevation-z2"
+        matSort
+      >
+        <!-- Add table columns here -->
+
+        <ng-container matColumnDef="column1">
+          <mat-header-cell *matHeaderCellDef>Time Stamp</mat-header-cell>
+          <mat-cell *matCellDef="let path" class="text-xs">
+            {{ path.time }}
+          </mat-cell>
+          <mat-cell *ngIf="path.length === 0">Unavaliable</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="column2">
+          <mat-header-cell *matHeaderCellDef>Latitude</mat-header-cell>
+          <mat-cell *matCellDef="let path" class="text-xs">
+            {{ path.lat }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="column3">
+          <mat-header-cell *matHeaderCellDef>Longitude</mat-header-cell>
+          <mat-cell *matCellDef="let path" class="text-xs">
+            {{ path.lng }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="column4">
+          <mat-header-cell *matHeaderCellDef>Speed</mat-header-cell>
+          <mat-cell *matCellDef="let path" class="text-xs"
+            >{{ path.speed | number : "1.0-2" }} km/h</mat-cell
+          >
+        </ng-container>
+
+        <ng-container matColumnDef="column5">
+          <mat-header-cell *matHeaderCellDef>GPRS Status</mat-header-cell>
+          <mat-cell
+            *matCellDef="let path"
+            class="text-xs grid grid-cols-1 gap-1"
+            ><span>Direction: {{ path.direction }}° </span
+            ><span>ACC Status: {{ path.acc }} </span></mat-cell
+          >
+        </ng-container>
+
+        <ng-container matColumnDef="column6">
+          <mat-header-cell *matHeaderCellDef>Location</mat-header-cell>
+          <mat-cell *matCellDef="let path; let i = index">
+            <!-- <a
+              *ngIf="showAddresses === false && addressIndex !== i"
+              (click)="fetchGoogleStreet(path.lat, path.lng, path, i)"
+              [hidden]="path.address"
+              class="hover:text-blue-600 cursor-pointer"
+            >
+              Click to View Address
+            </a>
+            <div *ngIf="path.address" class="text-xs">
+              {{ path.address }}
+            </div> -->
+            <div class="text-xs">
+              {{ path.location }}
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Add more columns here -->
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        <mat-row *ngIf="path.length === 0">
+          <ng-template let-row>
+            <mat-cell colspan="5">Path Unavailable</mat-cell>
+          </ng-template>
+        </mat-row>
+      </mat-table>
+    </div>
+    <div [ngClass]="{ hidden: loading }">
+      <mat-paginator
+        #paginator
+        [length]="path.length"
+        [pageSize]="15"
+        [pageSizeOptions]="[15, 20, 50, 75, 100]"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

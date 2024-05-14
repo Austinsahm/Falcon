@@ -1,0 +1,19 @@
+.mat-input-element {
+  color: #3056d3 !important;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  .mat-input-element {
+    color: white !important;
+  }
+}
+
+.forgot {
+  text-align: right !important ;
+}
+
+//input outline color
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #94a3b8;
+  // opacity: 1!important;
+}

@@ -1,0 +1,36 @@
+.userCompany {
+  font-size: 10px;
+}
+
+.user {
+  font-size: 12px;
+}
+
+mat-icon {
+  height: 20px !important;
+  width: 20px !important;
+  font-size: 20px !important;
+}
+
+.dropdown:hover {
+  background: rgba(48, 86, 211, 0.24);
+  border-radius: 5px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(48, 86, 211, 0.3);
+//   max-width: 90%;
+//   margin: auto;
+}
+
+
+// .dropdown:focus {
+//   background: rgba(48, 86, 211, 0.24);
+//   border-radius: 5px;
+//   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+//   backdrop-filter: blur(5px);
+//   -webkit-backdrop-filter: blur(5px);
+//   border: 1px solid rgba(48, 86, 211, 0.3);
+// //   max-width: 90%;
+// //   margin: auto;
+// }

@@ -1,0 +1,139 @@
+<div class="rounded-t bg-white mb-0 px-6 py-4 bg-gray-50">
+  <div class="text-center flex justify-between">
+    <div class="text-blue-700 text-primary text-2xl">Alarm Report List</div>
+  </div>
+</div>
+<div class="rounded-b bg-white p-2">
+  <form class="rounded justify-center" [formGroup]="dateForm">
+    <div class="grid grid-cols-4 gap-4">
+      <mat-form-field class="w-full" appearance="outline" style="width: 100%">
+        <mat-label>Start Date</mat-label>
+        <input
+          matInput
+          [ngxMatDatetimePicker]="picker"
+          placeholder="Choose a date"
+          formControlName="startDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="$any(picker)"
+        ></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [showSeconds]="true">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+
+      <mat-form-field class="" appearance="outline" style="width: 100%">
+        <mat-label>End Date</mat-label>
+        <input
+          matInput
+          [ngxMatDatetimePicker]="picker2"
+          placeholder="Choose a date"
+          formControlName="endDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="$any(picker2)"
+        ></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker2 [showSeconds]="true">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Device</mat-label>
+        <mat-select formControlName="deviceId" required>
+          <mat-option
+            *ngFor="let devices of devices"
+            [value]="devices.deviceId"
+          >
+            {{ devices.deviceName }}
+          </mat-option>
+        </mat-select>
+        <mat-hint *ngIf="devices.length === 0" style="color: red"
+          >Devices Unavaliable</mat-hint
+        >
+      </mat-form-field>
+      <div class="flex items-center">
+        <button
+          [hidden]="!dateForm.invalid"
+          [disabled]="dateForm.invalid"
+          type="button"
+          class="text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          disabled
+        >
+          View List
+        </button>
+
+        <button
+          (click)="alarmReport(devices)"
+          [hidden]="dateForm.invalid"
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        >
+          View List
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Loader -->
+  <div class="justify-self-center w-full">
+    <div *ngIf="loading" class="flex justify-center content-center">
+      <progress class="progress w-56 text-primary"></progress>
+    </div>
+
+    <!-- Alarm List Table -->
+    <div *ngIf="!loading">
+      <div class="flex w-full justify-end mb-2">
+        <button
+          *ngIf="export"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          mat-button
+          (click)="onExport()"
+        >
+          Export to Excel
+        </button>
+      </div>
+
+      <mat-table
+      #table
+      [dataSource]="dataSource"
+      class="mat-elevation-z2"
+      matSort
+    >
+      <!-- Attribute Column -->
+      <ng-container matColumnDef="attribute">
+        <mat-header-cell *matHeaderCellDef> Attribute </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.attribute }} </mat-cell>
+      </ng-container>
+
+      <!-- Count Column -->
+      <ng-container matColumnDef="count">
+        <mat-header-cell *matHeaderCellDef> Count </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.count }} </mat-cell>
+      </ng-container>
+
+      <!-- Add more columns here if needed -->
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+      <!-- Handle case where alarms array is empty -->
+      <mat-row *ngIf="alarms.length === 0">
+        <ng-template let-row>
+          <mat-cell colspan="2">Alarm Unavailable</mat-cell>
+        </ng-template>
+      </mat-row>
+    </mat-table>
+    </div>
+    <!-- <div [ngClass]="{ hidden: loading }">
+      <mat-paginator
+        #paginator
+        [length]="alarms.length"
+        [pageSize]="15"
+        [pageSizeOptions]="[15, 20, 50, 75, 100]"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    </div> -->
+  </div>
+</div>

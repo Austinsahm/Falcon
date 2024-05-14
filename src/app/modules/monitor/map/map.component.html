@@ -1,0 +1,327 @@
+<div>
+  <div class="map" #map (click)="updateMapView()"></div>
+  <div class="pano">
+    <button *ngIf="showPanorama" (click)="toggleView()">
+      {{ !togglePanoramaState ? "Street View" : "Map View" }}
+    </button>
+  </div>
+  <div
+    class="geoFence bg-white flex justify-content"
+    *ngIf="!togglePanoramaState"
+  >
+    <button *ngIf="!geofence" (click)="geoFence()">
+      <svg
+        id="Layer_1"
+        data-name="Layer 1"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 504.83 492.91"
+        fill="none"
+        stroke="#3056D3"
+        stroke-miterlimit="15"
+        stroke-width="15px"
+        class="w-6 h-6 flex"
+      >
+        <path
+          d="M273.66,487.91h-40a5,5,0,0,1-5-5v-40a5,5,0,0,1,5-5h40a5,5,0,0,1,5,5v40A5,5,0,0,1,273.66,487.91ZM499.83,353.49v-40a5,5,0,0,0-5-5h-40a5,5,0,0,0-5,5v40a5,5,0,0,0,5,5h40A5,5,0,0,0,499.83,353.49ZM55,354.47v-40a5,5,0,0,0-5-5H10a5,5,0,0,0-5,5v40a5,5,0,0,0,5,5H50A5,5,0,0,0,55,354.47Zm395.15-5L277,449.47M149.41,263.61,56,317.55m0,31.92,173.2,100m221-131.92-93.93-54.23m0,0,2.26-2.25a150,150,0,0,0,0-212.14h0a150,150,0,0,0-212.13,0h0a150,150,0,0,0,0,212.14L252.42,367.13l103.8-103.81M252.42,80a75,75,0,1,0,75,75A75,75,0,0,0,252.42,80Z"
+        />
+      </svg>
+    </button>
+
+    <div class="" *ngIf="geofence">
+      <mat-tab-group
+        animationDuration="500ms"
+        (selectedTabChange)="onTabChange($event)"
+      >
+        <mat-tab label="Set Fence">
+          <div>
+            <!-- <div class="font-semibold text-xl">Set Fence</div> -->
+            <!-- <mat-slide-toggle
+              color="primary"
+              class="mt-3"
+              [(ngModel)]="bindByCategory"
+              >Bind To Category
+            </mat-slide-toggle> -->
+
+            <form class="max-w-lg m-4" [formGroup]="form">
+              <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3 mb-6 md:mb-0">
+                  <!-- <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    id="grid-first-name"
+                    type="text"
+                    formControlName="newGeofence"
+                    placeholder="Enter Geofencing Name"
+                  /> -->
+
+                  <mat-form-field
+                    class="dark:text-slate-400"
+                    appearance="outline"
+                    style="width: 100%"
+                  >
+                    <mat-label class="dark:text-slate-400"
+                      >Fence Name</mat-label
+                    >
+                    <input
+                      matInput
+                      formControlName="newGeofence"
+                      placeholder="Enter Geofencing Name"
+                    />
+                    <mat-hint>Give the fence a name</mat-hint>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3 mb-6 md:mb-0">
+                  <!-- <input
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                    id="grid-first-name"
+                    type="text"
+                    formControlName="newGeofence"
+                    placeholder="Enter Geofencing Name"
+                  /> -->
+
+                  <mat-form-field
+                    class="dark:text-slate-400"
+                    appearance="outline"
+                    style="width: 100%"
+                  >
+                    <mat-label class="dark:text-slate-400">Code</mat-label>
+                    <input
+                      matInput
+                      formControlName="code"
+                      placeholder="Enter Code"
+                      type="number"
+                    />
+                    <mat-hint>Enter a unique number</mat-hint>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3">
+                  <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Device Category</mat-label>
+                    <mat-select
+                      #deviceCategorySelect
+                      (selectionChange)="devicesCategory($event)"
+                    >
+                      <mat-option
+                        *ngFor="let list of category"
+                        [value]="list.deviceCategId"
+                      >
+                        {{ list.deviceCategName }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint>Bind to device category</mat-hint>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- <div class="flex flex-wrap -mx-3 mb-6" *ngIf="!bindByCategory">
+                <div class="w-full px-3">
+                  <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Device</mat-label>
+                    <mat-select
+                      (selectionChange)="onDeviceSelectionChange($event)"
+                    >
+                      <mat-option
+                        *ngFor="let devices of devices"
+                        [value]="devices.deviceName"
+                      >
+                        {{ devices.deviceName }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint>Bind to a device</mat-hint>
+                  </mat-form-field>
+                </div>
+              </div> -->
+
+              <div class="flex flex-wrap -mx-3 mb-6">
+                <div class="w-full px-3">
+                  <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Geofence Status</mat-label>
+                    <mat-select
+                      #fenceType
+                      (selectionChange)="onGeofenceSelectionChange($event)"
+                    >
+                      <mat-option
+                        *ngFor="let list of gprsStatus"
+                        [value]="list.fenceStatus"
+                      >
+                        {{ list.fenceStatus }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint>Select a Geofence Status</mat-hint>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="w-full flex justify-between">
+                <!-- <button
+                  class="flex items-center bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  (click)="cancel()"
+                >
+                  Cancel
+                </button> -->
+                <button
+                  #submit
+                  type="button"
+                  class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
+                  (click)="cancel()"
+                >
+                  Cancel
+                </button>
+
+                <!-- <button
+                  #submit
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  (click)="onCreate()"
+                >
+                  Save Fence
+                </button> -->
+
+                <button
+                  type="button"
+                  [hidden]="!form.invalid && enableSaveButton"
+                  [disabled]="!form.invalid && enableSaveButton"
+                  class="text-white bg-blue-400 hover:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                >
+                  Save Fence
+                </button>
+
+                <!-- <button
+                  type="button"
+                  [disabled]="!form.invalid || !enableSaveButton"
+                  [hidden]="!form.invalid || !enableSaveButton"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                  (click)="onCreate()"
+                >
+                  Save Fence
+                </button> -->
+
+                <button
+                  type="button"
+                  [hidden]="form.invalid || !enableSaveButton"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                  (click)="onCreate()"
+                >
+                  Save Fence
+                </button>
+              </div>
+            </form>
+          </div></mat-tab
+        >
+        <mat-tab label="My Fence"
+          ><form class="max-w-lg m-4" [formGroup]="myFence">
+            <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full">
+                <mat-form-field class="w-full" appearance="outline">
+                  <mat-label>Device Category</mat-label>
+                  <mat-select
+                    #deviceSelect
+                    (selectionChange)="fenceCategory($event)"
+                  >
+                    <mat-option
+                      *ngFor="let list of category"
+                      [value]="list.deviceCategId"
+                    >
+                      {{ list.deviceCategName }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>Find by device category</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+          <div class="listItems" style="overflow-y: auto">
+            <div
+              *ngIf="fenceLoading"
+              class="flex justify-center content-center"
+            >
+              <progress class="progress w-56 text-primary"></progress>
+            </div>
+            <ng-container *ngIf="fenceArray" class="h-12">
+              <ng-container *ngIf="fenceArray.shapes.length">
+                <div class="flex items-center justify-between max-w-lg m-1">
+                  <div
+                    class="text-xs font-bold leading-none text-gray-900 dark:text-white"
+                  >
+                    Fence
+                  </div>
+                  <a
+                    (click)="deleteAllFence(fenceArray.categoryId)"
+                    class="text-sm font-medium cursor-pointer text-blue-600 hover:underline dark:text-blue-500"
+                  >
+                    Delete all
+                  </a>
+                </div></ng-container
+              >
+
+              <div *ngFor="let fence of fenceArray.shapes">
+                <ul class="my-2 space-y-3">
+                  <li>
+                    <div
+                      (click)="showFenceOnMap(fence.headerId ?? '')"
+                      [ngClass]="{
+                        'active-fence': isCurrentFenceActive(
+                          fence.headerId ?? ''
+                        )
+                      }"
+                      class="flex items-center cursor-pointer justify-between p-3 font-medium hover:shadow hover:bg-gray-100 focus:shadow focus:bg-gray-100 text-sm text-white-900 rounded-lg bg-white-50 group dark:bg-white-600 dark:text-white"
+                    >
+                      <span
+                        *ngIf="fence.fenceType === 'OUT'"
+                        class="text-orange-600"
+                        >Out</span
+                      >
+                      <span
+                        *ngIf="fence.fenceType === 'IN'"
+                        class="text-teal-500"
+                        >In</span
+                      >
+                      <span
+                        *ngIf="fence.fenceType === 'BOTH'"
+                        class="text-violet-600"
+                        >Both</span
+                      >
+                      <span class="ms-3 whitespace-nowrap">{{
+                        fence.headerName
+                      }}</span>
+                      <div>
+                        <button
+                          (click)="
+                            saveEditedFence(fenceArray, fence.headerId ?? '')
+                          "
+                          *ngIf="isCurrentFenceActive(fence.headerId ?? '')"
+                          class="inline-flex items-center justify-center px-2 py-0.5 mr-3 text-xs text-white bg-blue-700 hover:bg-blue-800 hover:shadow focus:ring-4 focus:ring-blue-300 font-medium rounded-lg dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                        >
+                          Save
+                        </button>
+                        <button
+                          (click)="
+                            deleteOneFence(
+                              fence.headerId ?? '',
+                              fence.headerName ?? ''
+                            )
+                          "
+                          class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs text-white bg-red-700 hover:bg-red-800 hover:shadow focus:ring-4 focus:ring-red-300 font-medium rounded-lg dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div></ng-container
+            >
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+<!-- Control Panel Modal-->
+<dialog #modalDialog class="modal">
+  <app-control-panel-modal></app-control-panel-modal>
+</dialog>

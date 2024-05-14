@@ -1,0 +1,17 @@
+<div class="grid sm:grid-row-2 md:grid-cols-12 md:gap-2">
+  <app-map
+    class="md:col-span-9 map"
+    [deviceIds]="selectedDeviceId"
+    [devicesArray]="devices"
+    [companyId]="companyId"
+    [subdomain]="subdomain"
+  ></app-map>
+  <app-monitor-device-list
+    class="md:col-span-3 dark:bg-slate-800"
+    (selectedDeviceId)="getDevice($event)"
+    [devicesArray]="devices"
+  ></app-monitor-device-list>
+
+  <!-- <div>1</div>
+  <div>2</div> -->
+</div>
